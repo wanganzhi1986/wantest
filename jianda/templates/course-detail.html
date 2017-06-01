@@ -1,0 +1,174 @@
+{%extends 'base.html'%}
+{% load staticfiles %}
+<!--css 文件-->
+{%block custom_css%}
+ <link href="{% static 'css/course.css' %}" rel="stylesheet">
+{%endblock%}
+
+<!--js文件-->
+{%block custom_js%}
+{%endblock%}
+
+{%block custom_content%}
+
+<div class="background-gradient">
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb">
+                <li><a href="#">课程</a></li>
+                <li><a href="#">后端开发</a></li>
+                <li><a href="#">C++</a></li>
+                <li><a href="#">C++远征之模版篇</a></li>
+            </ol>
+        </div>
+        <div class="row padding ">
+            <h4>{{course.name}}</h4>
+        </div>
+        <div class="row row-nav-margin">
+            <div class="col-xs-4 col-md-2 edit">
+                <h6>{{course.degree}}</h6>
+                <span class="span-title">难度</span>
+            </div>
+            <div class="col-xs-4 col-md-2 edit">
+                <h6>{{course.students}}</h6>
+                <span class="span-title">学习人数</span>
+            </div>
+            <div class="col-xs-4 col-md-2 edit">
+                <h6>{{course.learn_times}}</h6>
+                <span class="span-title">时长</span>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                {%if has_learn %}
+                    <a href="#" class="pull-right button-self">继续学习</a>
+                {%else%}
+                    <a href="?first_learn=true" class="pull-right button-self">开始学习</a>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style=";padding-right:15px;">
+           <div class="mod-tab-menu">
+               <ul class="course-menu clearfix nav " role="tablist">
+                   <li role="presentation" class="active">
+                       <a href="#tab-chapter" class="ui-tabs-active" role="tab" data-toggle="tab">
+                           <span>章节</span>
+                       </a>
+                   </li>
+                   <li role="presentation">
+                       <a href="#tab-comment" class="ui-tabs-active" role="tab" data-toggle="tab">
+                           <span>评论</span>
+                       </a>
+                   </li>
+                   <li role="presentation">
+                       <a href="#tab-question" class="ui-tabs-active" role="tab" data-toggle="tab">
+                           <span>问答</span>
+                       </a>
+                   </li>
+               </ul>
+           </div>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="tab-chapter">
+                    <div class="mod-chapters">
+                        {% for lesson in course.get_course_lesson%}
+                            <div class="chapter-title"  data-toggle="collapse" data-target="#js-chapter-videos_02">
+                                <span>第{{forloop.counter}}章 {{lesson.name}}</span>
+                                <i class="fa fa-caret-down pull-right icon-dropdown" aria-hidden="true"></i>
+                            </div>
+                            {% if has_learn %}
+                                <div class="chapter chapter_active">
+                                <div class="chapter-videos" id="js-chapter-videos_02">
+                                <ul>
+                                    {% for video in lesson.get_lesson_video %}
+                                    <li>
+                                        <a href="{% url 'course:course_video' video.id %}">
+                                            <i class="fa fa-play " aria-hidden="true"></i>
+                                            <span>{{forloop.parentloop.counter}}-{{forloop.counter}} {{video.name}}</span>
+                                        </a>
+                                    </li>
+                                    {%endfor%}
+                                </ul>
+                            </div>
+
+                            </div>
+                            {%else%}
+                             <div class="chapter chapter_active">
+                                <span>{{lesson.desc}}</span>
+                             </div>
+                            {%endif%}
+                        {%endfor%}
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="tab-comment">
+                    <div class="video-comment-list" style="border-top: 0;">
+                        <ul>
+                            <li class="comment">
+                                <div class="comment-avator clearfix">
+                                    <a href="">
+                                        <img width="40" height="40" src="image/image2.png">
+                                    </a>
+                                </div>
+                                <div class="comment-main">
+                                    <div class="comment-nick clearfix">
+                                        <a href="" class="l">黑林小杰</a>
+                                        <a href="" class="r">
+                                            <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                            <span>回复</span>
+                                        </a>
+                                    </div>
+                                    <div class="comment-content">讲师的声音好萌啊  好喜欢</div>
+                                    <div class="comment-btm clearfix">
+                                        <span class="comment-time">时间: 2017-03-17</span>
+                                        <a class="comment-praise">
+                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                            <span>20</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="comment">
+                                <div class="comment-avator clearfix">
+                                    <a href="">
+                                        <img width="40" height="40" src="image/image2.png">
+                                    </a>
+                                </div>
+                                <div class="comment-main">
+                                    <div class="comment-nick clearfix">
+                                        <a href="" class="l">黑林小杰</a>
+                                        <a href="" class="r">
+                                            <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                            <span>回复</span>
+                                        </a>
+                                    </div>
+                                    <div class="comment-content">讲师的声音好萌啊  好喜欢</div>
+                                    <div class="comment-btm clearfix">
+                                        <span class="comment-time">时间: 2017-03-17</span>
+                                        <a class="comment-praise">
+                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                            <span>20</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="tab-question">
+
+                </div>
+
+            </div>
+
+
+        </div>
+        </div>
+    </div>
+
+{%endblock%}
+

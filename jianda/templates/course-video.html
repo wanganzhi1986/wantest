@@ -1,0 +1,204 @@
+{%extends 'base.html'%}
+{% load staticfiles %}
+
+{%block custom_css%}
+<link rel="stylesheet" href="{%static 'css/course.css' %}"/>
+{%endblock%}
+
+{%block custom_script%}
+<script src="{% static 'js/course.js' %}"></script>
+{%endblock%}
+
+{%block custom_content%}
+
+<div class="background-gradient">
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb">
+                <li><a href="#">课程</a></li>
+                <li><a href="#">后端开发</a></li>
+                <li><a href="#">C++</a></li>
+                <li><a href="#">C++远征之模版篇</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+
+    <div class="video_player">
+        <div id="video" class="video">
+            <div class="video-wrapper">
+                <video id="example_video_1" class="video-js vjs-default-skin  vjs-big-play-centered" controls preload="none" height="480px" width="100%"
+                       poster="http://video-js.zencoder.com/oceans-clip.png"
+                       data-setup="{}">
+                    <source src="{{video.url}}" type='video/mp4'>
+                </video>
+            </div>
+            <div class="video-btn">
+                <ul>
+                    <li class="btn-share-qq">
+                        <a href=""><i class="fa fa-qq" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="btn-share-weixin">
+                        <a href=""><i class="fa fa-weixin" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="btn-praise" data-praiseid="{{video.id}}">
+                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                        <span class="num">{{video.praise_nums}}</span>
+                    </li>
+                    <li class="btn-fav" data-favid="{{video.id}}">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <span class="num">{{video.fav_nums}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="video_nav">
+            {% for lesson in course.get_course_lesson %}
+                <ul>
+                    <li class="sec-title">
+                    <span>第{{forloop.counter}}章 {{lesson.name}}</span>
+                    </li>
+                    {% for video in lesson.get_lesson_video%}
+                    <li>
+                      <a target="_blank" href="{% url 'course:course_video' video.id %}">
+                          <i class="fa fa-play-circle" aria-hidden="true"></i>
+                          {{forloop.parentloop.counter}}-{{forloop.counter}} {{video.name}}
+                      </a>
+                    </li>
+                    {%endfor%}
+                </ul>
+            {%endfor%}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-9" style=";padding-right:15px;">
+
+            <div class="text-center reward" style="margin:30px 0;">
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#shang_modal">
+                    打赏
+                </button>
+                <div class="modal fade" id="shang_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title text-center" id="myModalLabel ">感谢您的支持，我会继续努力</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="text-center">
+                                    <img src="{% static 'image/wepay.png' %}">
+                                    <span></span>
+                                </div>
+
+                                <div id="radio_btn" class="text-center" style="margin: 40px 0">
+                                    <label class="radio-inline"> <input type="radio" name="reward" data-id="wepay" checked> <img src="{% static 'image/wechat.jpg'%}"></label>
+                                    <label class="radio-inline" style="margin-left: 30px"> <input type="radio" name="reward" data-id="image2"> <img src="{% static 'image/alipay.jpg' %}"></label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           <div class="mod-tab-menu">
+               <ul class="course-menu clearfix">
+                   <li>
+                       <a href="" class="ui-tabs-active active">
+                           <span>评论</span>
+                       </a>
+                   </li>
+                   <li>
+                       <a href="" class="ui-tabs-active">
+                           <span>问答</span>
+                       </a>
+                   </li>
+               </ul>
+           </div>
+
+            <div class="video-comment">
+                <div class="video-comment-input">
+                    <textarea rows="4" placeholder="扯淡、吐槽、表扬、鼓励……想说啥就说啥"></textarea>
+                    <div class="num-limit">
+                        <span id="js-num-limit">0</span>
+                        /300
+                    </div>
+                </div>
+                <div class="video-comment-btn">
+                    <input type="button" id="js-comment-btn" class="comment-btn" value="发表评论" data-videoid="{{video.id}}">
+                </div>
+            </div>
+
+            <div class="video-comment-list">
+                <ul>
+                    {% for video_comment in video_comments.object_list %}
+                        <li class="comment">
+                        <div class="comment-avator clearfix">
+                            <a href="">
+                                <img width="40" height="40" src="image/image2.png">
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="comment-nick clearfix">
+                                <a href="" class="l">{{video_comment.user.name}}</a>
+                                <a href="" class="r">
+                                    <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                    <span>回复</span>
+                                </a>
+                            </div>
+                            <div class="comment-content">{{video_comment.comment}}</div>
+                            <div class="comment-btm clearfix">
+                                <span class="comment-time">{{video_comment.add_time|date:"Y-m-d"}}</span>
+                                <a class="comment-praise">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    <span>20</span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    {%endfor%}
+                </ul>
+            </div>
+
+        <div class="row">
+            <div class="pagination-self">
+                <ul class="pagelist">
+                {% if video_comments.has_previous %}
+                <li class="long">
+                  <a href="?{{ video_comments.previous_page_number.querystring }}" class="prev">上一页</a>
+                </li>
+                {% endif %}
+
+                {% for page in video_comments.pages %}
+                  {% if page %}
+                    {% ifequal page video_comments.number %}
+                      <li><a href="?{{ page.querystring }}" class="page active">{{ page }}</a></li>
+                    {% else %}
+                      <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                    {% endifequal %}
+                  {% else %}
+                    <li class="none"><a href="">...</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if video_comments.has_next %}
+                  <li class="long"><a href="?{{ video_comments.next_page_number.querystring }}">下一页</a></li>
+                {% endif %}
+              </ul>
+            </div>
+        </div>
+
+        </div>
+
+        <div class="col-md-3" style=";padding-right:0px;">
+
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+
+
+</html>

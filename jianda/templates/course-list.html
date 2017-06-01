@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block custom_css %}
+<style>
+    .footer { margin:0px; background-color: #2a2a2a; text-align: center;padding:30px;margin-top:40px; clear: both;}
+    .footer_nav_out {display:inline-block;border-bottom: 1px solid #4d4d4d;padding:0px 50px;}
+    .footer_nav { display: inline-block; color: #9e9e9e;padding:10px 50px; vertical-align: top;}
+    .footer_nav li{ font-size: 14px;text-align: left;line-height: 30px;}
+    .footer_nav li a{ color: #9e9e9e;}
+    .footer_nav li a:hover{ opacity: .9;}
+    .footer_nav .title{ font-size: 18px;}
+    .footer .copyright { color: #787878;font-size: 12px;margin-top: 30px;}
+    .footer .copyright img { margin-left:6px;margin-right:6px;margin-top:-10px;}
+    .footer .copyright span { color: #57dfc7;}
+    .footer .copyright span.phone_large { font-size: 20px;}
+	 ol,ul{list-style: none;margin:0;padding:0;}.page{font-size:14px;}.content-label{margin:0px 5px 8px 5px;clear:both;}
+	.content-label>ul{overflow:hidden;}.content-label>ul>li{float:left;margin-right:10px;margin-bottom:15px;}
+	.content-label>ul>li>a{color:#777;border-radius:16px;padding:2px 15px;}.content-label-span{color:#bbb;width:56px;float:left;}
+	.content-label>ul>li>a>span:active,.content-label>ul>li>a:hover{background-color: #00d3d4;border-radius:16px;color:#fff;padding:2px 15px 4px 15px;}
+	.content-label>ul>li>a>span.active{background-color: #00d3d4;border-radius:16px;color:#fff;padding:2px 15px 4px 15px;}
+	.content-title{font-size:16px;;color:#00d3d4;margin:-10px 5px 20px 5px;padding-bottom:5px;border-bottom:1px solid #ddd;}
+	.content-divider{height:50px;background-color:#F5F5F5;border:1px solid #ddd;margin:0px 5px 20px 5px;line-height: 45px;}
+	.content-divider>a.active{color:#00d3d4 !important;}
+	.content-divider>a{margin:0px 10px 0px 40px;color:#777} .content-divider>a:active,.content-divider>a:hover{color:#00d3d4;}
+	.thumbnail{border:1px solid #fff;border-bottom:1px solid #ddd;border-radius:0px;padding:12px 10px 12px 10px;margin:2px; list-style:none}
+	a.thumbnail:hover{border-radius:0px;border:1px solid #fff;-webkit-box-shadow:0 0 10px rgba(63, 63, 63, .5);-moz-box-shadow:0 0 10px rgba(63, 63, 63, .5);box-shadow:0 0 10px rgba(63, 63, 63, .5);}
+	.thumbnail .caption{padding:0px;}.caption>h6{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;font-size:14px;margin:9px 0px 2px 0px;font-weight:400;padding-top:1px;padding-bottom: 1px;}
+	.subhead{font-size:13px !important;color:#bbb;}.col-xs-6.col-md-3.edit{ padding:0px;margin-bottom:30px;}
+	.subhead-titie{font-size: 12px ;color:#FA6441;margin:0px;} .subhead-content{ font-size: 12px;color:#bbb;} .pagination-self{text-align: center;font-size:15px;margin-top:10px;}
+	.pagination-self>ul{display: inline-block}
+	.pagination-self>ul>li{display: inline-block;margin:0px 4px;}
+	.pagination-self>ul>li>a{display: inline-block;color:#bbb;padding:1px 8px;font-family: "Arial";}
+	.pagination-self>ul>li>a:active,.pagination-self>ul>li>a:hover{color:#fff;background-color: #00d3d4}
+	.pagination-self>ul>li>a.active{color:#fff;background-color: #00d3d4}
+	a{
+	   list_style:none
+	}
+</style>
+{%endblock%}
+
+
+{%block custom_content%}
+<div class="page">
+    <div class="container">
+        <div class="row">
+            <div class="content-title">
+                <span>全部课程</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="content-label">
+                <div class="content-label-span">方向：</div>
+                <ul>
+                    <li>
+                     <a href="?orient={{ orient.id }}&degree={{degree}}"><span class="{% ifequal orient_id '' %}active{% endifequal %}">全部</span></a>
+                    </li>
+
+                    {% for orient in all_orient %}
+                        <li>
+                        <a class="active" href="?orient={{ orient.id }}&degree={{degree}}">
+                            <span class="{% ifequal orient_id orient.id|stringformat:'i'%} active{%endifequal%}">{{orient.name}}</span>
+                        </a>
+                        </li>
+                    {%endfor%}
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="content-label">
+                <span class="content-label-span">分类：</span>
+                <ul>
+
+                    <li>
+                        <a href="?orient={{ orient_id }}&degree={{degree}}"><span class="{% ifequal category_id '' %}active{% endifequal %}">全部</span></a>
+                    </li>
+                    {% for category in all_category%}
+                    <li>
+                        <a href="?orient={{orient_id}}&category={{category.id}}&degree={{degree}}">
+                            <span class="{%ifequal category_id category.id|stringformat:'i'%} active {%endifequal%}">{{category.name}}</span>
+                        </a>
+                    </li>
+                    {%endfor%}
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="content-label">
+                <span class="content-label-span">难度：</span>
+                <ul>
+                    <li>
+                        <a href="?category={{category_id}}&orient={{orient_id}}">
+                            <span class="{%ifequal degree ''%}active{%endifequal%}">全部</span>
+                        </a>
+                    </li>
+                    <li>
+                         <a href="?degree=cj&category={{category_id}}&orient={{orient_id}}">
+                            <span class="{%ifequal degree 'cj' %}active{%endifequal%}">初级</span>
+                        </a>
+                    </li>
+                    <li>
+                         <a href="?degree=zj&category={{category_id}}&orient={{orient_id}}">
+                            <span class="{%ifequal degree 'zj' %}active{%endifequal%}">中级</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="?degree=gj&category={{category_id}}&orient={{orient_id}}">
+                            <span class="{%ifequal degree 'gj'%}active{%endifequal%}">高级</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="content-divider">
+                <a href="#" class="active">最新</a>
+                <a href="#">最热</a>
+            </div>
+        </div>
+        <div class="row">
+            {%for course in all_course.object_list %}
+                <div class="col-xs-6 col-md-3 edit">
+                <a class="thumbnail" href="{% url 'course:course_detail' course.id %}">
+                    <!--<img data-src="holder.js/100%x180">-->
+                    <!--<img data-src="holder.js/100%x180" alt="..." src="{{MEDIA_URL}}{{course.image}}">-->
+                    <img width="267" height="180" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                    <!--<img data-src="{{MEDIA_URL}}{{course.image}}">-->
+                    <div class="caption">
+                        <h6>{{course.name}}</h6>
+                        <h6   class="subhead">{{course.desc}}</h6>
+                        <span class="subhead-titie">未学习</span>
+                        <div class="pull-right">
+                            <span class="glyphicon glyphicon-user subhead-content"></span>
+                            <span class="subhead-content">{{course.student}}人学习</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {%endfor%}
+            </div>
+
+        <div class="row">
+            <div class="pagination-self">
+                <ul class="pagelist">
+                {% if all_course.has_previous %}
+                <li class="long">
+                  <a href="?{{ all_course.previous_page_number.querystring }}" class="prev">上一页</a>
+                </li>
+                {% endif %}
+
+                {% for page in all_course.pages %}
+                  {% if page %}
+                    {% ifequal page all_course.number %}
+                      <li><a href="?{{ page.querystring }}" class="page active">{{ page }}</a></li>
+                    {% else %}
+                      <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                    {% endifequal %}
+                  {% else %}
+                    <li class="none"><a href="">...</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if all_course.has_next %}
+                  <li class="long"><a href="?{{ all_courses.next_page_number.querystring }}">下一页</a></li>
+                {% endif %}
+              </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="jumbotron footer">
+    <div class="footer_nav_out">
+        <ul class="footer_nav">
+            <li class="title">首页</li>
+            <li><a href="http://www.exmobi.cn/console/main.html">控制台</a></li>
+            <li><a href="http://www.exmobi.cn/open/index.html">开放平台</a></li>
+            <li><a href="http://www.exmobi.cn/sitemap.xml">网站地图</a></li>
+        </ul>
+
+        <ul class="footer_nav">
+            <li class="title">产品</li>
+            <li><a href="http://www.exmobi.cn/product.html">产品介绍</a></li>
+            <li><a href="http://www.exmobi.cn/quote.html">产品类型</a></li>
+            <li><a href="http://www.exmobi.cn/resources/product/exmobi-white-paper.pdf">白皮书</a></li>
+        </ul>
+        <ul class="footer_nav">
+            <li class="title">开发</li>
+            <li><a href="http://www.exmobi.cn/get-start.html">新手入门</a></li>
+            <li><a href="http://docs.exmobi.cn/">文档中心</a></li>
+            <li><a href="http://www.exmobi.cn/agile-lite/index.html">Agile Lite</a></li>
+        </ul>
+        <ul class="footer_nav">
+            <li class="title">论坛</li>
+            <li><a href="http://bbs.exmobi.cn/forum.php?mod=guide&view=new">查看新贴</a></li>
+            <li><a href="http://bbs.exmobi.cn/portal.php">论坛导读</a></li>
+            <li><a href="http://bbs.exmobi.cn/plugin.php?id=auction">插件商城</a></li>
+        </ul>
+        <ul class="footer_nav">
+            <li class="title">关于</li>
+            <li><a href="http://www.fhss.com.cn/aboutus.htm">关于我们</a></li>
+            <li><a href="http://www.fhss.com.cn/contactus.htm">联系我们</a></li>
+            <li><a href="http://www.exmobi.cn/recruitment/index.html">招贤纳士</a></li>
+        </ul>
+    </div>
+    <p class="copyright"><a href="" class="copyright" target="_blank">gengdaoping</a>&nbsp;&nbsp;<img src="./images/p_icon_phone.png"><span class="phone_large">400-110-1111</span>&nbsp;&nbsp;<span>025-6677-7333</span></p>
+</div>
+{%endblock%}
