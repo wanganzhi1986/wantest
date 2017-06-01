@@ -1,0 +1,21 @@
+{
+  "raw_data_0001": {
+    "input_path": "",
+    "output_dir": "",
+    "label_name": "label",
+    "uid_name": "uid",
+    "subset": [
+      ""
+    ],
+    "filter":[],
+    "prepocess": [
+      "fillan",
+      "minmax"
+    ],
+    "extend_data": [
+      "discrete",
+      "rank",
+      "gbdt"
+    ]
+  }
+}
