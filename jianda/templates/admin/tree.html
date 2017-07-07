@@ -1,0 +1,255 @@
+{%extends 'base.html'%}
+{% load staticfiles %}
+
+{%block custom_css%}
+<link rel="stylesheet" href="{%static 'css/admin/form.css' %}"/>
+<style>
+        .toolbar-view{
+                background-color: #224663;
+            }
+        .classWrap .profile{
+            /*width: 60%;*/
+            color: #FFFFFF;
+            padding: 30px 0;
+        }
+
+        .classWrap .profile .image{
+            margin-right: 15px;
+        }
+
+        .classWrap .profile .name{
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+
+        .classWrap .stats{
+            /*width: 40%;*/
+            color: #FFFFFF;
+            padding: 30px 0;
+        }
+        .classWrap .stats .item{
+            /*padding-right: 30px;*/
+            /*padding: 10px;*/
+            border-right: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .classWrap .stats .item .cont{
+            padding: 0 30px;
+        }
+
+        .classWrap .stats .item .num{
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .classWrap .stats .item .txt{
+            font-size: 14px;
+            text-align: center;
+        }
+
+
+        .chapterBox{
+            margin-top: 20px;
+        }
+
+        .r{
+            float:right;
+        }
+        .l{
+            float: left;
+        }
+
+        a{
+            color: #777;
+            text-decoration: none;
+            cursor: pointer
+        }
+
+        .chapterBox .chapter{
+            border-bottom: 1px solid rgb(205, 214, 222);
+            height: 50px;
+        }
+
+        .chapterBox .chapter .name{
+            line-height: 50px;
+        }
+
+        .chapterBox .action{
+            padding-right: 10px;
+        }
+
+        .chapterBox .action a{
+            margin-right: 20px;
+            line-height: 50px;
+            color: #777;
+            text-decoration: none;
+        }
+
+        .chapterBox .videoBox{
+
+        }
+
+        .chapterBox .videoBox .item{
+            border-bottom: 1px solid rgb(205, 214, 222);
+            position: relative;
+            height: 50px;
+        }
+
+        .chapterBox .videoBox .item .i_num{
+            padding-left: 30px;
+            line-height: 50px;
+            padding-right: 10px;
+            font-size: 14px;
+
+        }
+
+        .chapterBox .videoBox .item .i_con{
+            border-left: 1px solid rgb(205, 214, 222);
+            padding-left: 20px;
+            line-height: 50px;
+            font-size: 14px;
+        }
+
+        .chapterBox .videoBox .item_add{
+
+            padding-left: 75px;
+            border-bottom: 1px solid rgb(205, 214, 222);
+
+        }
+        .chapterBox .videoBox .item_add a{
+            line-height: 50px;
+            font-size: 14px;
+        }
+
+        .chapterBox .videoBox .item_add .addBox{
+            border-left: 1px solid rgb(205, 214, 222);
+            height: 50px;
+            padding-left: 20px;
+        }
+
+        .chapter_add{
+            height: 50px;
+            border-bottom: 1px solid rgb(205, 214, 222);
+            padding-left: 10px;
+        }
+
+        .chapter_add a{
+            line-height: 50px;
+
+        }
+    </style>
+{%endblock%}
+
+{%block custom_script%}
+<script src="{% static 'js/admin/main.js' %}"></script>
+<script src="{% static 'js/admin/quick_detail.js' %}"></script>
+<script src="{% static 'js/admin/quick_form.js' %}"></script>
+<script src="{% static 'js/admin/quick_del.js' %}"></script>
+<!--<script src="{% static 'js/admin/quick_edit.js' %}"></script>-->
+{%endblock%}
+
+
+{%block custom_content%}
+<div class="toolbar-view">
+    <div class="container">
+        <div class="classWrap">
+            <div class="profile l clearfix">
+                <div class="image l">
+                    <img src="" height="70" width="100">
+                </div>
+                <div class="name l">{{rel_obj.name}}</div>
+            </div>
+            <div class="stats r clearfix">
+                <div class="item r">
+                    <div class="cont">
+                        <div class="num">5</div>
+                        <span class="txt">学生</span>
+                    </div>
+
+                </div>
+                <div class="item r">
+                    <div class="cont">
+                        <div class="num">100</div>
+                        <span class="txt">课时</span>
+                    </div>
+
+                </div>
+                <div class="item r">
+                    <div class="cont">
+                        <div class="num">5</div>
+                        <span class="txt">评价</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="classToolBar">
+    <div class="container">
+        <div class="pageContent">
+            <div id="courseBox">
+                {%for lesson in results%}
+                <div class="chapterBox">
+                    <div class="chapter clearfix">
+
+                        <div class="name l">第{{forloop.counter}}章  {{lesson.object.name}}</div>
+                        <div class="action r">
+                            <a data-detail-url="{%url 'xadmin:course_lesson_detail' lesson.object.id %}" class="c_edit details-handler" data-toggle="tooltip" title="详情"  data-placement="top" >
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            </a>
+                            <a data-edit-url="{%url 'xadmin:course_lesson_change' lesson.object.id%}?_rel_{{relate_obj.lookup}}={{relate_obj.value}}" class="c_edit edit-handler" title="编辑" data-toggle="tooltip"  data-placement="top" >
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                            <a data-del-url="{%url 'xadmin:course_lesson_delete' lesson.object.id%}"  data-content="你确定要删除本章内容吗?" class="c_edit del-handler" data-toggle="tooltip" title="删除"  data-placement="top" >
+                                <i class="fa fa-times" aria-hidden="true" data-toggle="tooltip"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="videoBox">
+                        {% for video in lesson.object.get_lesson_video%}
+                        <div class="item clearfix">
+                            <div class="i_num l">第{{forloop.counter}}节</div>
+                            <div class="i_con l">{{video.name}}</div>
+                            <div class="action r">
+                                <a data-detail-url="{%url 'xadmin:course_video_detail' video.id%}" class="c_edit details-handler" data-toggle="tooltip" title="详情"  data-placement="top" >
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                </a>
+                                <a data-edit-url="{%url 'xadmin:course_video_change' video.id%}?_rel_lesson__id__exact={{lesson.object.id}}" class="c_edit edit-handler" title="编辑" data-toggle="tooltip"  data-placement="top" >
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-del-url="{%url 'xadmin:course_video_delete' video.id%}"  data-content="你确定要删除本节内容吗?" class="c_edit del-handler" data-toggle="tooltip" title="删除"  data-placement="top" >
+                                    <i class="fa fa-times" aria-hidden="true" data-toggle="tooltip"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor%}
+                        <div class="item_add">
+                            <div class="addBox">
+                                <a data-add-url="{%url 'xadmin:course_video_add'%}?_rel_lesson__id__exact={{lesson.object.id}}" class="add_section form-handler">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    添加一讲
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+                 <div class="chapter_add">
+                    <a data-add-url="{{add_url}}" data-refresh-url="{%url 'xadmin:course_lesson_changelist'%}?_rel_{{relate_obj.lookup}}={{relate_obj.value}}"   class="add_part form-handler">
+                        <i class="fa fa-plus" aria-hidden="true" style="margin-right: 5px"></i>
+                        添加一章
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{%endblock%}
+
+
+

@@ -1,0 +1,39 @@
+
+.math-input-buttons{
+    left: 10px;
+    top: 5px;
+}
+
+.tex-button{
+    display: block;
+    float: left;
+    margin: 1px;
+    border: 1px solid #1c758a;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.tex-group{
+    background-color: #777;
+    border: 1px solid #ccc;
+}
+.tex-group button{
+    cursor: pointer;
+    display:block;
+    float: left;
+    padding: 5px 10px;
+    text-align: center;
+    border: 0;
+    color: #333;
+    font-size: 14px;
+}
+.tex-button-row{
+    position: relative;
+    margin-left: 0;
+}
+
+/*.tex-group button.active{*/
+    /*background-color: white;*/
+    /*border: 1px solid #1c758a;*/
+/*}*/
+
