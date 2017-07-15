@@ -1074,6 +1074,8 @@ GraphUtils.createGraphie = function(el) {
     });
 
 
+
+
     // Initializes graphie settings for a graph and draws the basic graph
     // features (axes, grid, tick marks, and axis labels)
     // Options expected are:

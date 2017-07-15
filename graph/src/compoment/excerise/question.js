@@ -8,7 +8,9 @@ import { Button, ButtonToolbar, Glyphicon, Alert, Modal, Panel as BsPanel,
 import $ from 'jquery';
 import ListHint from './hint.js';
 import MathInput from '../math/math-input';
-import GrapherEditor from '../graphie/grapher-editor';
+import Editor from '../editor/index';
+import GrapherEditor from '../editor/plugins/graph/grapher-editor';
+
 
 class Question extends Component{
     constructor(props){
@@ -89,6 +91,9 @@ class Question extends Component{
                     createHint={()=>this.createQuestionHint()}
                     deleteHint={(hid)=>this.deleteQuestionHint(hid)}
                     updateHint={(hid, source)=>this.updateQuestionHint(hid, source)}
+                />
+                <Editor
+                    placeholder="开始输入内容"
                 />
                 <GrapherEditor/>
             </div>
